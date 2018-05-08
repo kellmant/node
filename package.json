@@ -1,0 +1,26 @@
+{
+  "name": "cli",
+  "version": "1.0.2",
+  "bin": {
+    "ctrl": "bin/ctrl"
+  },
+  "description": "CLI tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "kellman",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "color-json": "^1.0.0",
+    "etcd-result-objectify": "^1.0.0",
+    "minimist": "^1.2.0",
+    "node-etcd": "^5.1.0",
+    "ora": "^2.1.0",
+    "simple-etcd": "^0.1.0"
+  }
+}
