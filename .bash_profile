@@ -418,7 +418,7 @@ cd ~
 msgctrl "Development shell is live and running for $TSOCK "
 echo 
 echo "dropping to SHELL $0 from profile load for $TSOCK session."
-cat /etc/motd
+helpme
 echo
 if [ -f ~/bin/ctrl ] ; then
 #	~/bin/ctrl
