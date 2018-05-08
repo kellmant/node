@@ -425,5 +425,5 @@ if [ -f ~/bin/ctrl ] ; then
 echo "run 'ctrl' for help with API Infrastructure controller help."
 echo
 fi
-yoda-said 2>/dev/null
+#yoda-said 2>/dev/null
 
