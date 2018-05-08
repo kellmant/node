@@ -1,7 +1,6 @@
 # some shell ones that worry me
 .ssh
 .aws*
-.azure*
 credentials
 .bash_history
 .config
@@ -15,6 +14,7 @@ KEYSTORE*
 *.pem
 *.crt
 playground/*
+!playground/README.md
 .gitconfig
 .git-credentials
 
