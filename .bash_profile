@@ -155,12 +155,12 @@ promptblog () {
 }
 
 promptuid () {
-    cpapi=$(etcdctl get cp/stat/uid 2>/dev/null) || cpapi="No session (ctrl login)"
+    cpapi=$(etcdctl get cp/uid 2>/dev/null) || cpapi="No session (ctrl login)"
     echo -n "$cpapi "
 }
 
 prompturl () {
-    cpurl=$(etcdctl get cp/stat/url 2>/dev/null) || cpurl="https://hack.securinglabs.online/$BUDDY"
+    cpurl=$(etcdctl get cp/url 2>/dev/null) || cpurl="https://hack.securinglabs.online/$BUDDY"
     echo -n "$cpurl "
 }
 
