@@ -10,6 +10,7 @@ const etcdObject = require('etcd-result-objectify')
 const axios = require('axios')
 const grab = require('../utils/vars')
 const colorJson = require('color-json')
+const apicall = 'show-data-center-objects'
 
 // acts as timestamp with now
 const now = new Date()
@@ -22,7 +23,15 @@ let cpops = grab.cp.ops
 let cpstat = grab.cp.stat
 
 module.exports = async () => {
-	await main()
+	try {
+		const mySid = await callToken(cpstat, {recursive: true})
+		const mytoken = await etcdObject(mySid)
+		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall)
+		//console.log(myCPobject)
+		return await showmyObject(myCPobject)
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 // main() function for program runtime
@@ -36,7 +45,7 @@ function main() {
 		//console.log('%j', mytoken)
 		//console.log('Retrieve session key for ' + mytoken.url)
 		//console.log(mytoken.sid)
-		processEvent(mytoken.url, mytoken.sid, mytoken.uid, 'show-data-centers')
+		processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall)
 	}, function(err) {
 		console.log(err)
 		console.log('Failed in main function to get session token')
@@ -46,17 +55,20 @@ function main() {
 // process the return data from the api call
 //
 function processEvent(url, sid, uid, cmd) {
-	let recPromise = showEvent(url, sid, uid, cmd)
-	recPromise.then(function(result) {
-		let myresult = result
-		//console.log(typeof myresult)
-		//for (var exKey in myresult) {
-		console.log(colorJson(myresult))
-		//	console.log(exKey + " => " + myresult[exKey])
-	}, function(err) {
-		console.log(err)
-		console.log('Failed to complete event ' + cmd)
+	return new Promise(function(resolve, reject) {
+		showEvent(url, sid, uid, cmd)
+		.then(function(value, err) {
+			if (err) {
+				reject(err)
+			} else {
+				resolve(value)
+			}
+		})
 	})
+}
+
+async function showmyObject(myobject) {
+	await console.log(colorJson(myobject))
 }
 
 // called by main() runtime to process change event
