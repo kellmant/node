@@ -17,9 +17,9 @@ const now = new Date()
 // depreciated for imported vars
 //
 // location of session key for log of events
-// let mysession = grab.cp.ops
+let cpops = grab.cp.ops
 // active session location in keystore
-//let cpapi = grab.cp.stat
+let cpstat = grab.cp.stat
 
 module.exports = async () => {
 	await main()
@@ -29,7 +29,7 @@ module.exports = async () => {
 // initial promise set for token retrival
 // from keystore etcdCache with callToken()
 function main() {
-	let initPromise = callToken(grab.cp.stat, { recursive: true })
+	let initPromise = callToken(cpstat, { recursive: true })
 	initPromise.then(function(result) {
 		let mytoken = etcdObject(result)
 		//console.log(typeof result)
@@ -78,8 +78,8 @@ function showEvent(url, sid, uid, cmd) {
 			} else {
 				//console.log('Event ' + cmd + 'in session for ' + url)
 				// set event time in the keystore session log
-				// located at grab.cp.ops var 
-			etcdCache.set(grab.cp.ops + uid + '/' + now.getTime(), cmd)
+				// located at cpops var 
+			etcdCache.set(grab.cpops + uid + '/' + now.getTime(), cmd)
 				resolve(value.data)
 			}
 		})
@@ -89,7 +89,7 @@ function showEvent(url, sid, uid, cmd) {
 // called by main function to retrieve session
 // token for the cp api from etcdCache keystore
 // as defined by var grab.cp.stat for key/value location
-function callToken(grab.cp.stat, options) {
+function callToken(cpstat, options) {
 	return new Promise(function(resolve, reject) {
 		// Do async get of key value
 		etcdCache.get(grab.cp.stat, options, function (err, value) {
