@@ -19,8 +19,14 @@ const now = new Date()
 //console.log(grab.cp)
 
 module.exports = async () => {
-	await main()
+	try {
+		await main()
+		console.log('Login successful')
+	} catch (err) {
+		console.log('Login FAILED')
+	}
 }
+
 
 // main() function for program runtime
 // async calls are made from the top level

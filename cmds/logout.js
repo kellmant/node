@@ -23,7 +23,12 @@ const cmd = 'logout'
 
 
 module.exports = async () => {
-	await main()
+	try {
+		await main()
+		console.log('Session closed successfully')
+	} catch (err) {
+		console.log('FAILED to close session')
+	}
 }
 
 // main() function for program runtime
