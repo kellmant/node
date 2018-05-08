@@ -239,7 +239,7 @@ fi
 # Personnal Aliases
 #-------------------
 alias showdebug='tail -f $HOME/nohup.out'
-alias helpme='cat /etc/motd'
+#alias helpme='cat /etc/motd'
 alias apihelp='tree $HOME'
 
 alias rm='rm -i'
@@ -273,6 +273,7 @@ alias lu='ls -ltur'        #  Sort by/show access time,most recent last.
 
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
 alias ll='ls -hl --color=auto'
+alias lll='ls -hlA --color=auto'
 alias lm='ll | more'        #  Pipe through 'more'
 alias lt='ll -tr'         #  Sort by date, most recent last.
 alias lr='ll -R'           #  Recursive ls.
