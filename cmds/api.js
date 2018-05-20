@@ -10,6 +10,7 @@ const etcdObject = require('etcd-result-objectify')
 const axios = require('axios')
 const grab = require('../utils/vars')
 const colorJson = require('color-json')
+const ora = require('ora')
 //const apicall = args._[1]
 //console.log(apicall)
 
@@ -70,7 +71,23 @@ function processEvent(url, sid, uid, cmd) {
 }
 
 async function showmyObject(myobject) {
-	await console.log(colorJson(myobject))
+	//await console.log(colorJson(myobject))
+	//await console.log('%j ', myobject)
+	//await console.log('%j', myobject)
+	const showit = await countmyObject(myobject)
+	console.log(showit)
+}
+
+// object counter to page in objects
+// from R80.10 smartcenter
+//
+async function countmyObject(myobject) {
+	const cpcount = {
+		from : myobject.from,
+		to : myobject.to,
+		total : myobject.total
+	}
+	return cpcount
 }
 
 // called by main() runtime to process change event
@@ -93,7 +110,7 @@ function showEvent(url, sid, uid, cmd) {
 				//console.log('Event ' + cmd + 'in session for ' + url)
 				// set event time in the keystore session log
 				// located at cpops var 
-			etcdCache.set(cpops + uid + '/' + now.getTime(), cmd)
+			etcdCache.set(cpops + uid + '/' + now.getTime() + '/' + cmd, value.data)
 				resolve(value.data)
 			}
 		})
