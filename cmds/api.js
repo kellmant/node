@@ -16,11 +16,14 @@ const ora = require('ora')
 
 // acts as timestamp with now
 const now = new Date()
+const offset = 0
 
 // depreciated for imported vars
 //
 // location of session key for log of events
 let cpops = grab.cp.ops
+// location of object keys pulled from api
+let cpobjs = 'obj/'
 // active session location in keystore
 let cpstat = grab.cp.stat
 
@@ -29,37 +32,36 @@ module.exports = async (args) => {
 		const apicall = args._[1]
 		const mySid = await callToken(cpstat, {recursive: true})
 		const mytoken = await etcdObject(mySid)
-		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall)
-		//console.log(myCPobject)
-		return await showmyObject(myCPobject)
+		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
+		for (i=0 ; i < myCPobject.objects.length ; i++) {
+			let cpout = JSON.stringify(myCPobject.objects[i])
+			etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
+		}
+		const pagecount = await countmyObject(myCPobject)
+		console.log('%j ', pagecount)
+		console.log(pagecount.total)
+		do {
+			const offset = pagecount.to++
+			console.log(offset + ' of ' + pagecount.total + ' ' + apicall + ' objects indexed')
+			const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
+			for (i=0 ; i < myCPobject.objects.length ; i++) {
+				let cpout = JSON.stringify(myCPobject.objects[i])
+				etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
+				const pagecount = await countmyObject(myCPobject)
+			}
+		}
+		while (pagecount.total > pagecount.to) 
 	} catch (err) {
+		etcdCache.set(cpops + mytoken.uid + '/' + now.getTime() + '/error', err)
 		console.log(err)
 	}
 }
 
-// main() function for program runtime
-// initial promise set for token retrival
-// from keystore etcdCache with callToken()
-function main() {
-	let initPromise = callToken(cpstat, { recursive: true })
-	initPromise.then(function(result) {
-		let mytoken = etcdObject(result)
-		//console.log(typeof result)
-		//console.log('%j', mytoken)
-		//console.log('Retrieve session key for ' + mytoken.url)
-		//console.log(mytoken.sid)
-		processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall)
-	}, function(err) {
-		console.log(err)
-		console.log('Failed in main function to get session token')
-	})
-}
-
 // process the return data from the api call
 //
-function processEvent(url, sid, uid, cmd) {
+function processEvent(url, sid, uid, cmd, offset) {
 	return new Promise(function(resolve, reject) {
-		showEvent(url, sid, uid, cmd)
+		showEvent(url, sid, uid, cmd, offset)
 		.then(function(value, err) {
 			if (err) {
 				reject(err)
@@ -72,10 +74,13 @@ function processEvent(url, sid, uid, cmd) {
 
 async function showmyObject(myobject) {
 	//await console.log(colorJson(myobject))
-	//await console.log('%j ', myobject)
 	//await console.log('%j', myobject)
-	const showit = await countmyObject(myobject)
-	console.log(showit)
+	let countit = await countmyObject(myobject)
+	console.log('From: ' + countit.from)
+	console.log('To: ' + countit.to)
+	console.log('Total: ' + countit.total)
+	return countit
+	//console.log(typeof myobject)
 }
 
 // object counter to page in objects
@@ -93,7 +98,7 @@ async function countmyObject(myobject) {
 // called by main() runtime to process change event
 // using sid for authentication object in api header X-chkp-sid
 // using axios module for http API calls
-function showEvent(url, sid, uid, cmd) {
+function showEvent(url, sid, uid, cmd, offset) {
 	let apihost = url + '/' + cmd
 	return new Promise(function(resolve, reject) {
 		// expire auth token for cpapi
@@ -101,7 +106,7 @@ function showEvent(url, sid, uid, cmd) {
 			method: 'post',
 			url: apihost, 
 			headers: {'X-chkp-sid': sid},
-			data: {}
+			data: { 'limit': '50', 'offset': offset, 'details-level': 'standard' }
 		})
 			.then(function (value, err) {
 			if (err) {
@@ -110,7 +115,6 @@ function showEvent(url, sid, uid, cmd) {
 				//console.log('Event ' + cmd + 'in session for ' + url)
 				// set event time in the keystore session log
 				// located at cpops var 
-			etcdCache.set(cpops + uid + '/' + now.getTime() + '/' + cmd, value.data)
 				resolve(value.data)
 			}
 		})
