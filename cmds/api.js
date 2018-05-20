@@ -35,24 +35,29 @@ module.exports = async (args) => {
 		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
 		for (i=0 ; i < myCPobject.objects.length ; i++) {
 			let cpout = JSON.stringify(myCPobject.objects[i])
-			etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
+			etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].uid, cpout)
 		}
 		const pagecount = await countmyObject(myCPobject)
 		console.log('%j ', pagecount)
 		console.log(pagecount.total)
 		do {
+			//const spinner = ora().start()
 			const offset = pagecount.to++
 			console.log(offset + ' of ' + pagecount.total + ' ' + apicall + ' objects indexed')
 			const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
 			for (i=0 ; i < myCPobject.objects.length ; i++) {
 				let cpout = JSON.stringify(myCPobject.objects[i])
-				etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
+				await etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].uid, cpout)
 				const pagecount = await countmyObject(myCPobject)
+				//let offset = pagecnt.to + 1
+				//offset = pagecount.to++
 			}
 		}
 		while (pagecount.total > pagecount.to) 
+		//spinner.stop()
 	} catch (err) {
 		etcdCache.set(cpops + mytoken.uid + '/' + now.getTime() + '/error', err)
+		//spinner.stop()
 		console.log(err)
 	}
 }
@@ -106,7 +111,7 @@ function showEvent(url, sid, uid, cmd, offset) {
 			method: 'post',
 			url: apihost, 
 			headers: {'X-chkp-sid': sid},
-			data: { 'limit': '50', 'offset': offset, 'details-level': 'standard' }
+			data: { 'offset': offset, 'limit': 1 }
 		})
 			.then(function (value, err) {
 			if (err) {
