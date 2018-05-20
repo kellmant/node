@@ -10,7 +10,8 @@ const etcdObject = require('etcd-result-objectify')
 const axios = require('axios')
 const grab = require('../utils/vars')
 const colorJson = require('color-json')
-const apicall = 'show-packages'
+//const apicall = args._[1]
+//console.log(apicall)
 
 // acts as timestamp with now
 const now = new Date()
@@ -22,8 +23,9 @@ let cpops = grab.cp.ops
 // active session location in keystore
 let cpstat = grab.cp.stat
 
-module.exports = async () => {
+module.exports = async (args) => {
 	try {
+		const apicall = args._[1]
 		const mySid = await callToken(cpstat, {recursive: true})
 		const mytoken = await etcdObject(mySid)
 		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall)
@@ -91,7 +93,7 @@ function showEvent(url, sid, uid, cmd) {
 				//console.log('Event ' + cmd + 'in session for ' + url)
 				// set event time in the keystore session log
 				// located at cpops var 
-			etcdCache.set(grab.cpops + uid + '/' + now.getTime(), cmd)
+			etcdCache.set(cpops + uid + '/' + now.getTime(), cmd)
 				resolve(value.data)
 			}
 		})

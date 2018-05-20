@@ -4,6 +4,7 @@ const error = require('../utils/error')
 const etcdObject = require('etcd-result-objectify')
 //const { info, warn, loading, error, link } = require('prettycli')
 
+/*
 const mysession = async () => {
 	try {
 		await myState(grab.cp.stat).then((result) => {
@@ -20,7 +21,8 @@ const mysession = async () => {
 
 }
 
-//mysession()
+mysession()
+*/
 
 	const menus = {
 		
@@ -31,6 +33,7 @@ const mysession = async () => {
 		login .............. start session
 		logout ............. end session
 		cpapi .............. CP R80 API commands
+		api ................ CP R80 API commands
 		version ............ show controller version
 		help ............... show controller help
 	

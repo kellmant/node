@@ -26,6 +26,10 @@ module.exports = () => {
 		cmd = 'cpapi'
 	}
 
+	if (args.api) {
+		cmd = 'api'
+	}
+
 
 
 	switch (cmd) {
@@ -45,6 +49,9 @@ module.exports = () => {
 			require('./cmds/cpapi')(args)
 				break
 
+		case 'api':
+			require('./cmds/api')(args)
+				break
 
 		case 'version':
 			require('./cmds/version')(args)

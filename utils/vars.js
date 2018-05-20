@@ -5,7 +5,7 @@
 // situation keeps a log of events within a session
 // cpstate is the active session id and token
 //
-const auth = 'ctrl/cfg/mg/smc/config_system/'
+const auth = 'ctrl/cfg/mg/opb/config_system/'
 
 const cp = {
 	ops : 'api/session/',
