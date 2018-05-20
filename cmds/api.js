@@ -27,6 +27,8 @@ let cpobjs = 'obj/'
 // active session location in keystore
 let cpstat = grab.cp.stat
 
+const pagelimit = 500
+
 module.exports = async (args) => {
 	try {
 		const apicall = args._[1]
@@ -39,19 +41,20 @@ module.exports = async (args) => {
 		}
 		const pagecount = await countmyObject(myCPobject)
 		console.log('%j ', pagecount)
-		console.log(pagecount.total)
+		console.log(pagecount.to)
 		do {
 			//const spinner = ora().start()
-			const offset = pagecount.to++
+			const offset = pagecount.to
 			console.log(offset + ' of ' + pagecount.total + ' ' + apicall + ' objects indexed')
 			const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
 			for (i=0 ; i < myCPobject.objects.length ; i++) {
 				let cpout = JSON.stringify(myCPobject.objects[i])
 				await etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].uid, cpout)
-				const pagecount = await countmyObject(myCPobject)
-				//let offset = pagecnt.to + 1
-				//offset = pagecount.to++
 			}
+			pagecount.to = pagecount.to + pagelimit
+			//const pagecount = await countmyObject(myCPobject)
+			//let offset = pagecnt.to + 1
+			//offset++
 		}
 		while (pagecount.total > pagecount.to) 
 		//spinner.stop()
@@ -111,15 +114,13 @@ function showEvent(url, sid, uid, cmd, offset) {
 			method: 'post',
 			url: apihost, 
 			headers: {'X-chkp-sid': sid},
-			data: { 'offset': offset, 'limit': 1 }
+			data: { 'offset': offset, 'limit': pagelimit, 'details-level': 'full' }
 		})
 			.then(function (value, err) {
 			if (err) {
 				reject(err)
 			} else {
 				//console.log('Event ' + cmd + 'in session for ' + url)
-				// set event time in the keystore session log
-				// located at cpops var 
 				resolve(value.data)
 			}
 		})
