@@ -28,6 +28,7 @@ let cpobjs = 'obj/'
 let cpstat = grab.cp.stat
 
 const pagelimit = 500
+const objdetail = 'full'
 
 module.exports = async (args) => {
 	try {
@@ -37,19 +38,20 @@ module.exports = async (args) => {
 		const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
 		for (i=0 ; i < myCPobject.objects.length ; i++) {
 			let cpout = JSON.stringify(myCPobject.objects[i])
-			etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].uid, cpout)
+			etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
 		}
 		const pagecount = await countmyObject(myCPobject)
 		console.log('%j ', pagecount)
 		console.log(pagecount.to)
 		do {
-			//const spinner = ora().start()
+			//const spinner = ora({ stream: process.stdout, color: yellow }).start()
 			const offset = pagecount.to
 			console.log(offset + ' of ' + pagecount.total + ' ' + apicall + ' objects indexed')
 			const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
+			//spinner.start('Object scrape')
 			for (i=0 ; i < myCPobject.objects.length ; i++) {
 				let cpout = JSON.stringify(myCPobject.objects[i])
-				await etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].uid, cpout)
+				await etcdCache.set(cpobjs + myCPobject.objects[i].type + '/' + myCPobject.objects[i].name, cpout)
 			}
 			pagecount.to = pagecount.to + pagelimit
 			//const pagecount = await countmyObject(myCPobject)
@@ -57,10 +59,10 @@ module.exports = async (args) => {
 			//offset++
 		}
 		while (pagecount.total > pagecount.to) 
-		//spinner.stop()
+		//spinner.stop('ENd')
 	} catch (err) {
 		etcdCache.set(cpops + mytoken.uid + '/' + now.getTime() + '/error', err)
-		//spinner.stop()
+		//spinner.stop(err)
 		console.log(err)
 	}
 }
@@ -114,7 +116,7 @@ function showEvent(url, sid, uid, cmd, offset) {
 			method: 'post',
 			url: apihost, 
 			headers: {'X-chkp-sid': sid},
-			data: { 'offset': offset, 'limit': pagelimit, 'details-level': 'full' }
+			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		})
 			.then(function (value, err) {
 			if (err) {
