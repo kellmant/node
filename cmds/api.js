@@ -11,8 +11,17 @@ const axios = require('axios')
 const grab = require('../utils/vars')
 const colorJson = require('color-json')
 const ora = require('ora')
-//const apicall = args._[1]
-//console.log(apicall)
+
+//set the number of returned json objects
+// to maxi (500)
+// the level of detail impacts the 
+// velocity of change. uid to only track
+// on the id, standard for most info
+// and full if you want to see object
+// state as well as full details audit
+//
+const pagelimit = 500
+const objdetail = 'full'
 
 // acts as timestamp with now
 const now = new Date()
@@ -27,8 +36,6 @@ let cpobjs = 'obj/'
 // active session location in keystore
 let cpstat = grab.cp.stat
 
-const pagelimit = 500
-const objdetail = 'full'
 
 module.exports = async (args) => {
 	try {
