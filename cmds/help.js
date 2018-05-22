@@ -32,7 +32,6 @@ mysession()
 		today .............. show todays weather
 		login .............. start session
 		logout ............. end session
-		cpapi .............. CP R80 API commands
 		api ................ CP R80 API commands
 		version ............ show controller version
 		help ............... show controller help
@@ -53,12 +52,22 @@ mysession()
 	logout:`
 		ctrl logout
 
-		.... logout of api and expire session token
-		
-		
-		============= State ===================
-							`
+		.... logout of api and expire session token`,
+	api:`
+		ctrl api <options>
 
+		show-objects             .... Collect all objects
+		show-hosts               .... Collect all host objects
+		show-networks            .... Get network objects
+		show-groups              .... Get group object references
+		show-simple-gateways     .... Pull gateway objects
+		show-unused-objects      .... Get objects not used in policy
+		show-data-center-objects .... Get dynamic objects from data centers
+
+		Ex. ctrl api show-objects
+
+		
+							`
 	}
 
 module.exports = (args) => {
