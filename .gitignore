@@ -17,7 +17,7 @@ playground/*
 !playground/README.md
 .gitconfig
 .git-credentials
-
+.java/
 # Node rules:
 ## Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
