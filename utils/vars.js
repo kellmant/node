@@ -12,12 +12,26 @@ const cp = {
 	stat : 'cp/'
 }
 
+//set the number of returned json objects
+// to maxi (500)
+// the level of detail impacts the 
+// velocity of change. uid to only track
+// on the id, standard for most info
+// and full if you want to see object
+// state and timestamps
+//
+const page = {
+	limit : 500,
+	details = 'full'
+}
+
 // access vars with .auth, .cp as exported
 // use this for maintaining consistent constants
 // (alliteration not intended, but my new favorite saying)
 //
 module.exports.auth = auth
 module.exports.cp = cp
+module.exports.page = page
 
 // var information commented in cmds/login.js as well
 //
