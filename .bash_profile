@@ -382,6 +382,9 @@ alias add='git add'
 alias commit='git commit -m'
 alias push='git push origin master'
 
+alias gitname='git config --global user.name'
+alias gitmail='git config --global user.email'
+alias gitpass='git config --global credential.helper store'
 alias cleanscreen='reset ; resize'
 alias setme='sed -i \"s/BUDDY/${BUDDY}/g\" ${1}'
 
