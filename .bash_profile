@@ -1,4 +1,4 @@
-#!/bin/bash 
+
 #
 set -a
 
@@ -130,7 +130,7 @@ promptls () {
 }
 
 promptpwd () {
-    prmptwd=$(pwd | tr '\n' ' ') 2>/dev/null
+    prmptwd=$(pwd | tr -d '\n') 2>/dev/null
     echo -en "${prmptwd[@]}"
 }
 
@@ -343,9 +343,9 @@ PS1=${PS1}"\[${Yellow}\][\[${BPurple}\]\@ \d\[${Yellow}\]]\[${NC}\]\n"
         PS1=${PS1}":\[${Yellow}\][cmd:\[${Green}\]\!\[${Yellow}\] done:\[${BRed}\]\#\[${Yellow}\]][Clan:\[${BGreen}\] \$(promptscore) \[${Yellow}\]]\[${NC}\]"
 	PS1=${PS1}"\n\[${Yellow}\]|_/Session ID: \[${BBlue}\]\$(promptuid) \[${Yellow}\]API: \[${BGreen}\]\$(prompturl)\[${NC}\]\n"
 	# set the prompt
-    PS1=${PS1}"\[${BBlue}\]|_/DIR [\[${BYellow}\] \$(promptpwd) \[${BBlue}\]] \[${BWhite}\]  "
-    	PS1=${PS1}"\n\[${BYellow}\]   |_/[\[${NC}\]\$(promptgit)\[${BYellow}\]]"
-	PS1=${PS1}"\n\n\[${BGreen}\]=> \[${NC}\]"
+    PS1=${PS1}"\[${Yellow}\]|_/DIR[\[${BWhite}\]\$(promptpwd) \[${Yellow}\]]"
+    	PS1=${PS1}"\[${Yellow}\]|_/FILES[\[${NC}\]\$(promptgit)\[${Yellow}\]]"
+	PS1=${PS1}"\n\[${BGreen}\]=> \[${NC}\]"
         # Set title of current xterm:
         #PS1=${PS1}"\[\e]0;[\u@\h] \w\a\]"
 
