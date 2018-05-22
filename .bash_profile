@@ -422,7 +422,7 @@ helpme
 echo
 if [ -f ~/bin/ctrl ] ; then
 #	~/bin/ctrl
-echo "run 'ctrl' for help with API Infrastructure controller help."
+echo "run 'ctrl' for help with API Infrastructure controller."
 echo
 fi
 #yoda-said 2>/dev/null

@@ -1,4 +1,3 @@
-const myFun = require('./keystore')
-
-console.log(typeof myFun)
-console.dir(module.exports)
+const Etcd = require('node-etcd')
+const etcd = new Etcd('http://keystore.toonces:2379')
+console.dir(Object.keys(require('./vars')));
