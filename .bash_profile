@@ -379,6 +379,7 @@ alias sysblog='cd ~/sysblog/source/_posts'
 alias bin='cd ~/bin'
 alias api='cd ~/node'
 alias add='git add'
+alias mods='git diff'
 alias commit='git commit -m'
 alias push='git push origin master'
 
