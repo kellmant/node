@@ -20,10 +20,10 @@ const cp = {
 // and full if you want to see object
 // state and timestamps
 //
-const page = {
-	limit : 500,
-	details = 'full'
-}
+//const page = {
+//	limit : 500,
+//	details = 'full'
+//}
 
 // access vars with .auth, .cp as exported
 // use this for maintaining consistent constants
@@ -31,7 +31,7 @@ const page = {
 //
 module.exports.auth = auth
 module.exports.cp = cp
-module.exports.page = page
+//module.exports.page = page
 
 // var information commented in cmds/login.js as well
 //
