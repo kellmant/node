@@ -66,6 +66,7 @@ function getToken(apihost, userdata) {
 	}, function(err) {
 		console.log(err)
 		console.log('Failed to get session token')
+		return -1
 	})
 }
 
