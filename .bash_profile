@@ -238,7 +238,8 @@ fi
 #-------------------
 # Personnal Aliases
 #-------------------
-alias showdebug='tail -f $HOME/nohup.out'
+alias msg='skey msgbus'
+alias resetobj='etcdctl rm --recursive obj ; etcdctl rm --recursive msgbus'
 #alias helpme='cat /etc/motd'
 alias apihelp='tree $HOME'
 

@@ -11,6 +11,7 @@ const axios = require('axios')
 const grab = require('../utils/vars')
 const colorJson = require('color-json')
 const ora = require('ora')
+const writeJson = require('write-json-file')
 
 //set the number of returned json objects
 // to maxi (500)
@@ -55,6 +56,9 @@ module.exports = async (args) => {
 			const offset = pagecount.to
 			console.log(offset + ' of ' + pagecount.total + ' ' + apicall + ' objects indexed')
 			const myCPobject = await processEvent(mytoken.url, mytoken.sid, mytoken.uid, apicall, offset)
+			const myWrite = apicall + '.json'
+			const myFileStat = await writeJsonFile(myWrite, myCPobject)
+			console.log(myFileStat)
 			//spinner.start('Object scrape')
 			for (i=0 ; i < myCPobject.objects.length ; i++) {
 				let cpout = JSON.stringify(myCPobject.objects[i])
@@ -86,6 +90,12 @@ function processEvent(url, sid, uid, cmd, offset) {
 				resolve(value)
 			}
 		})
+	})
+}
+
+function writeJsonFile(file, jsonData) {
+	writeJson(file, jsonData).then(() => {
+		console.log('wrote json to file')
 	})
 }
 
