@@ -2,6 +2,7 @@ const doLogin = require('../utils/login')
 const doLogout = require('../utils/logout')
 const doError = require('../utils/error')
 const doGrab = require('../cp/showobjects')
+const doAlert = require('../msgbus/alertme')
 const doSave = require('../msgbus/writefile')
 
 module.exports = async (args) => {
@@ -15,7 +16,7 @@ module.exports = async (args) => {
 		const myObjects = await doGrab(mycmd, cpSession)
 		await doSave(mycmd, myObjects)
 		const myExit = await doLogout(cpSession)
-		//await console.log('Session ' + cpSession.uid + ' close: ' + myExit)
+		await doAlert('Session close', cpSession)
 	} catch (err) {
 		doError(err)
 	}
