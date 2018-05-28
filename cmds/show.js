@@ -4,6 +4,7 @@ const doError = require('../utils/error')
 const doGrab = require('../cp/showobjects')
 const doAlert = require('../msgbus/alertme')
 const doSave = require('../msgbus/writefile')
+const doParse = require('../proc/cpdump')
 
 module.exports = async (args) => {
 	try {
@@ -15,8 +16,11 @@ module.exports = async (args) => {
 		const cpSession = await doLogin()
 		const myObjects = await doGrab(mycmd, cpSession)
 		await doSave(mycmd, myObjects)
+		//await doParse(myObjects, cpSession)
+		await console.log(typeof myObjects)
 		const myExit = await doLogout(cpSession)
-		await doAlert('Session close', cpSession)
+		//await doAlert('Session close', cpSession)
+		await console.log('\n')
 	} catch (err) {
 		doError(err)
 	}

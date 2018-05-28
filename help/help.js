@@ -16,7 +16,8 @@
 	commands:`
 		ctrl commands
 
-		 ..... dump api commands`,
+		 ..... dump api commands
+		                          `,
 
 	show:`
 		ctrl show <object type>
@@ -25,7 +26,8 @@
 		networks .... network objects
 		groups .... group objects
 		unused-objects .... unused objects
-		objects .... all objects`,
+		objects .... all objects
+		                           `,
 
 	api:`
 		NA ctrl api <options>

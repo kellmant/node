@@ -1,5 +1,6 @@
 
 const getObject = require('../utils/callapi')
+const checkObject = require('../proc/cpdump')
 //
 
 module.exports = async (mycmd, cpToken) => {
@@ -18,7 +19,8 @@ module.exports = async (mycmd, cpToken) => {
 			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		}
 		var cpObjects = await getObject(cpCall)
-		await AllObjects.push(cpObjects)
+		//await checkObject(cpObjects, cpToken)
+		AllObjects.push(cpObjects)
 		while (cpObjects.total > offset) {
 			process.stdout.write(' ' + mycmd + '=>' + offset + '\r')
 			offset = offset + pagelimit
@@ -31,10 +33,11 @@ module.exports = async (mycmd, cpToken) => {
 				data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 			}
 			let cpObjects = await getObject(cpCall)
-			await AllObjects.push(cpObjects)
+			AllObjects.push(cpObjects)
 			//await console.log(AllObjects)
 		}
-		await console.log(' ' + mycmd + ' = ' + cpObjects.total)
+		//await console.log(' ' + mycmd + ' = ' + cpObjects.total)
+		await checkObject(AllObjects, cpToken)
 		return AllObjects
 	} catch (err) {
 		console.error(err)

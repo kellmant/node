@@ -1,11 +1,11 @@
 
 module.exports = (d,cpid) => {
 	var tstamp = Date.now() / 1000 | 0
-	let mbus = `${cpid.uid}/${tstamp} : `
+	const mbus = `${cpid.uid}/${tstamp} : `
 	if (typeof d === 'object') {
-		console.dir(d, { depth: null, colors:true});
-		newd = JSON.stringify(d)
-		console.log(mbus +  newd)
+		//console.dir(d, { depth: null, colors:true});
+		var newd = d.keys
+		console.dir(newd)
 		
 	} else {
 		console.log(mbus + d);
