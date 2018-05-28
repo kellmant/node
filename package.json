@@ -1,6 +1,6 @@
 {
   "name": "ctrl",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "bin": {
     "ctrl": "bin/ctrl"
   },
@@ -9,23 +9,28 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellmant/node.git"
+  },
   "keywords": [
-    "ctrl, api, rest, infrastructure, firewall, security, network"
+    "ctrl",
+    "api",
+    "rest",
+    "infrastructure",
+    "firewall",
+    "security",
+    "network"
   ],
   "author": "kellman",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kellmant/node/issues"
+  },
+  "homepage": "https://github.com/kellmant/node#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "color-json": "^1.0.0",
-    "etcd-result-objectify": "^1.0.0",
-    "etcdjs": "^2.4.2",
-    "etcdjs-promise": "^1.0.0",
-    "generate-schema": "^2.6.0",
     "minimist": "^1.2.0",
-    "node-etcd": "^5.1.0",
-    "node-rest-client": "^3.1.0",
-    "ora": "^2.1.0",
-    "simple-etcd": "^0.1.0",
-    "write-json-file": "^2.3.0"
+    "node-etcd": "^5.1.0"
   }
 }

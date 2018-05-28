@@ -14,55 +14,40 @@ module.exports = () => {
 		cmd = 'help'
 	}
 
-	if (args.login) {
-		cmd = 'login'
+	if (args.show) {
+		cmd = 'show'
 	}
 
-	if (args.logout) {
-		cmd = 'logout'
-	}
-
-	if (args.cpapi) {
-		cmd = 'cpapi'
-	}
-
-	if (args.api) {
-		cmd = 'api'
+	if (args.commands) {
+		cmd = 'commands'
 	}
 
 
 
 	switch (cmd) {
-		case 'today':
-			require('./cmds/today')(args)
+		case 'show':
+			require('./cmds/show')(args)
 				break
 
-		case 'login':
-			require('./cmds/login')(args)
-				break
-
-		case 'logout':
-			require('./cmds/logout')(args)
-				break
-
-		case 'cpapi':
-			require('./cmds/cpapi')(args)
-				break
-
-		case 'api':
-			require('./cmds/api')(args)
+		case 'commands':
+			require('./cmds/commands')(args)
 				break
 
 		case 'version':
-			require('./cmds/version')(args)
+			require('./help/version')(args)
+				break
+
+		case 'showhelp':
+			require('./help/help')(args)
 				break
 
 		case 'help':
-			require('./cmds/help')(args)
+			require('./help/help')(args)
 				break
 
 		default:
 			error(`"${cmd}" is not a valid control command`, true)
+			require('./cmds/help')(args)
 				break
 	}
 }
