@@ -12,12 +12,13 @@ module.exports = async (args) => {
 			require('../help/help')(args)
 			return
 		}
-		const mycmd = '/' + args._[0] + '-' + args._[1]
 		const cpSession = await doLogin()
+		const mycmd = '/' + args._[0] + '-' + args._[1]
 		const myObjects = await doGrab(mycmd, cpSession)
 		await doSave(mycmd, myObjects)
+		await console.log (typeof myObjects)
 		//await doParse(myObjects, cpSession)
-		await console.log(typeof myObjects)
+		//await console.log(typeof myObjects)
 		const myExit = await doLogout(cpSession)
 		//await doAlert('Session close', cpSession)
 		await console.log('\n')
