@@ -1,11 +1,10 @@
-const util = require('util')
+//const util = require('util')
 const getObject = require('../utils/callapi')
-const checkObject = require('../proc/cpdump')
+const msgBus = require('../msgbus/stream')
 //
 
-module.exports = async (mycmd, cpToken) => {
+module.exports = async (cpToken) => {
 	try {
-		const url = mycmd
 		let offset = 0
 		const pagelimit = 500
 		const objdetail = 'standard'
@@ -13,36 +12,27 @@ module.exports = async (mycmd, cpToken) => {
 		let cpCall = {
 			method: 'post',
 			baseURL: cpToken.url,
-			url: url,
+			url: cpToken.mycmd,
 			headers: { 'X-chkp-sid': cpToken.sid, 'content-Type': 'application/json' },
 			responseType: 'json',
 			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		}
 		let cpFound = await getObject(cpCall)
 		await cpBlob.push(cpFound)
-		//let cpBlob = await checkObject(cpFound, cpToken)
-		//console.log('the blob is : ' + (typeof cpBlob))
-//await console.log(util.inspect(cpBlob, { showHidden: true, colors: true, depth: null }))
-		//AllObjects.push(cpObjects)
 		while (cpFound.total > offset) {
-			process.stdout.write(' ' + mycmd + '=> ' + offset + '\r')
+			process.stdout.write(' ' + cpToken.mycmd + '=> ' + offset + '\r')
 			offset = offset + pagelimit
 			cpCall = {
 				method: 'post',
 				baseURL: cpToken.url,
-				url: url,
+				url: cpToken.mycmd,
 				headers: { 'X-chkp-sid': cpToken.sid, 'content-Type': 'application/json' },
 				responseType: 'json',
 				data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 			}
 			cpFound = await getObject(cpCall)
-			//AllObjects.push(cpObjects)
-			//await checkObject(cpFound, cpToken)
-			//cpBlob += await checkObject(cpFound, cpToken)
 			await cpBlob.push(cpFound)
-		//console.log('the blob is : ' + (typeof cpBlob))
 		}
-		//await console.log(' ' + mycmd + ' = ' + cpFound.total)
 		return cpBlob
 	} catch (err) {
 		console.error(err)

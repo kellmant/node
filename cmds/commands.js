@@ -8,10 +8,11 @@ const doAlert = require('../msgbus/alertme')
 
 module.exports = async (args) => {
 	try {
-		const mycmd = '/show-' + args._[0]
+		//const mycmd = '/show-' + args._[0]
 		const myfile = '/' + args._[0]
 		const cpSession = await doLogin()
-		const myObjects = await doGrab(mycmd, cpSession)
+		cpSession.mycmd = await '/show-' + args._[0]
+		const myObjects = await doGrab(cpSession)
 		const procObj = await doProc(myObjects)
 		await doAlert(procObj, cpSession)
 		await doSave(myfile, procObj)

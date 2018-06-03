@@ -7,12 +7,12 @@ const getObject = require('../utils/callapi')
 // data: { 'user': cpCred.admin, 'password': cpCred.pass }
 //
 
-module.exports = async (mycmd, cpToken) => {
+module.exports = async (cpToken) => {
 	try {
 		let cpCall = {
 			method: 'post',
 			baseURL: cpToken.url,
-			url: mycmd,
+			url: cpToken.mycmd,
 			headers: { 'X-chkp-sid': cpToken.sid, 'content-Type': 'application/json' },
 			responseType: 'json',
 			data: { }

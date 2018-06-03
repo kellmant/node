@@ -14,13 +14,11 @@ module.exports = async (args) => {
 			return
 		}
 		const cpSession = await doLogin()
+		cpSession.mycmd = await '/' + args._[0] + '-' + args._[1]
 		await msgBus('Login', cpSession)
-		const mycmd = '/' + args._[0] + '-' + args._[1]
-		const myObjects = await doGrab(mycmd, cpSession)
-		await msgBus(mycmd, cpSession)
+		const myObjects = await doGrab(cpSession)
 		const parsedObj = await doParse(myObjects)
-		await doSave(mycmd, parsedObj)
-		await console.log (typeof parsedObj)
+		await doSave(cpSession.mycmd, parsedObj)
 		const myExit = await doLogout(cpSession)
 		await msgBus('Logout', cpSession)
 		await console.log('\n')
