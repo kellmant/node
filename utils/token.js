@@ -16,7 +16,7 @@ module.exports = async (cpCred) => {
 			data: { 'user': cpCred.admin, 'password': cpCred.pass }
 		}
 		var cpToken = await getToken(cpCall)
-		return cpToken
+		return cpToken.data
 	} catch (err) {
 		console.error(err)
 	}

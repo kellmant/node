@@ -17,7 +17,7 @@ module.exports = async (cpToken) => {
 			data: { }
 		}
 		var cpLogout = await getObject(cpCall)
-		await console.log('Session ' + cpToken.uid + ' close: ' + cpLogout.message)
+		await console.log('Session ' + cpToken.uid + ' close: ' + cpLogout.data.message)
 		return cpLogout
 	} catch (err) {
 		console.error(err)

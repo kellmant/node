@@ -18,8 +18,8 @@ module.exports = async (cpToken) => {
 			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		}
 		let cpFound = await getObject(cpCall)
-		await cpBlob.push(cpFound)
-		while (cpFound.total > offset) {
+		await cpBlob.push(cpFound.data)
+		while (cpFound.data.total > offset) {
 			process.stdout.write(' ' + cpToken.mycmd + '=> ' + offset + '\r')
 			offset = offset + pagelimit
 			cpCall = {
@@ -31,7 +31,7 @@ module.exports = async (cpToken) => {
 				data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 			}
 			cpFound = await getObject(cpCall)
-			await cpBlob.push(cpFound)
+			await cpBlob.push(cpFound.data)
 		}
 		return cpBlob
 	} catch (err) {

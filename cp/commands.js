@@ -18,7 +18,7 @@ module.exports = async (cpToken) => {
 			data: { }
 		}
 		var cpObjects = await getObject(cpCall)
-		return cpObjects
+		return cpObjects.data
 	} catch (err) {
 		console.error(err)
 	}

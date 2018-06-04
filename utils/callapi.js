@@ -16,7 +16,7 @@ module.exports = (myPost) =>  {
 			if (err) {
 				reject(err)
 			} else {
-				resolve(value.data)
+				resolve(value)
 			}
 		})
 	})
@@ -26,4 +26,11 @@ module.exports = (myPost) =>  {
 // url: myPost.cmd,
 // headers: {'X-chkp-sid': myPost.sid},
 // data: { 'offset': myPost.offset, 'limit': myPost.pagelimit, 'details-level': myPost.objdetail }
+//
+// returns value or full response
+// value.data for response data
+// value.status for response status code
+// value.statusText for any response message
+// value.headers  to expose response headers
+// value.config to see the configuration the api was called with
 //
