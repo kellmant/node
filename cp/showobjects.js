@@ -18,12 +18,11 @@ module.exports = async (cpToken) => {
 			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		}
 		let cpFound = await getObject(cpCall)
-		await msgBus(cpFound.statusText, cpToken)
+		await msgBus('req for ' + cpFound.data.total + ' objects', cpToken)
 		await cpBlob.push(cpFound.data)
 		while (cpFound.data.total > offset) {
 			process.stdout.write(' ' + cpToken.mycmd + '=> ' + offset + '\r')
 			offset = offset + pagelimit
-			await msgBus('Indexing ' + cpFound.data.to + ' objects', cpToken)
 			cpCall = {
 				method: 'post',
 				baseURL: cpToken.url,
@@ -33,8 +32,9 @@ module.exports = async (cpToken) => {
 				data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 			}
 			cpFound = await getObject(cpCall)
-			await msgBus(cpFound.statusText, cpToken)
 			await cpBlob.push(cpFound.data)
+			if (cpFound.data.to)
+			await msgBus('Indexing ' + cpFound.data.to + ' objects', cpToken)
 		}
 		return cpBlob
 	} catch (err) {
