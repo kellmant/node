@@ -4,7 +4,7 @@
 	main:` 
 		ctrl [command] <options>
 
-		commands .............. show api commands
+		commands .............. cache api commands in keystore (api/)
 		show ............. show objects
 		version ............ show controller version
 		help ............... show controller help
@@ -16,7 +16,7 @@
 	commands:`
 		ctrl commands
 
-		 ..... dump api commands
+		 ..... dump api commands to keystore 
 		                          `,
 
 	show:`
