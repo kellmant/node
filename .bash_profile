@@ -238,8 +238,9 @@ fi
 #-------------------
 # Personnal Aliases
 #-------------------
-alias msg='skey msgbus'
-alias resetobj='etcdctl rm --recursive obj ; etcdctl rm --recursive msgbus'
+alias msg='skey msg'
+alias obj='lkey obj'
+alias resetobj='etcdctl rm --recursive obj ; etcdctl rm --recursive msg'
 #alias helpme='cat /etc/motd'
 alias apihelp='tree $HOME'
 

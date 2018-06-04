@@ -26,7 +26,8 @@
 		networks .... network objects
 		groups .... group objects
 		unused-objects .... unused objects
-		objects .... all objects
+		all <async> .... get all the main object types (add 'async' for concurrent gets)
+		objects .... all objects in the domain
 		                           `,
 
 	api:`

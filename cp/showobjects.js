@@ -2,13 +2,13 @@
 const getObject = require('../utils/callapi')
 const msgBus = require('../msgbus/stream')
 //
-const doDump = require('../proc/cpdump')
+const doDump = require('../proc/anyobj')
 
 module.exports = async (cpToken) => {
 	try {
 		let offset = 0
 		const pagelimit = 500
-		const objdetail = 'standard'
+		const objdetail = 'full'
 		let cpBlob = []
 		let cpCall = {
 			method: 'post',
@@ -19,11 +19,12 @@ module.exports = async (cpToken) => {
 			data: { 'offset': offset, 'limit': pagelimit, 'details-level': objdetail }
 		}
 		let cpFound = await getObject(cpCall)
-		await msgBus('req for ' + cpFound.data.total + ' objects', cpToken)
+		cpToken.mycmd = cpCall.url
+		await msgBus(cpFound.data.total + ' objects', cpToken)
 		await doDump(cpFound.data)
 		await cpBlob.push(cpFound.data)
 		while (cpFound.data.total > offset) {
-			process.stdout.write(' ' + cpToken.mycmd + '=> ' + offset + '\r')
+			process.stdout.write(' ' + cpToken.mycmd + '=> ' + cpFound.data.total + ' \r')
 			offset = offset + pagelimit
 			cpCall = {
 				method: 'post',

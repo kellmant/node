@@ -3,6 +3,12 @@
 const myBus = require('../msgbus/stream')
 const getObject = require('./callapi')
 
+function delay(ms) {
+	return {
+		then: cb => setTimeout( cb, ms )
+	}
+}
+
 // baseURL: 'https://host/web_api'
 // url: /login,
 // data: { 'user': cpCred.admin, 'password': cpCred.pass }
@@ -17,6 +23,7 @@ module.exports = async (cpToken) => {
 			headers: { 'X-chkp-sid': cpToken.sid },
 			data: { }
 		}
+		await delay(2000)
 		var cpLogout = await getObject(cpCall)
 		cpToken.mycmd = cpCall.url
 		await myBus(cpLogout.statusText, cpToken)
