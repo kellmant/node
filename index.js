@@ -23,11 +23,19 @@ module.exports = () => {
 		cmd = 'commands'
 	}
 
+	if (args.backup) {
+		cmd = 'backup'
+	}
+
 
 
 	switch (cmd) {
 		case 'show':
 			require('./cmds/show')(args)
+				break
+
+		case 'backup':
+			require('./cmds/backup')(args)
 				break
 
 		case 'commands':

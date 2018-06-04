@@ -6,6 +6,7 @@
 
 		commands .............. cache api commands in keystore (api/)
 		show ............. show objects
+		backup ............. backup objects from manager
 		version ............ show controller version
 		help ............... show controller help
 	
@@ -30,18 +31,15 @@
 		objects .... all objects in the domain
 		                           `,
 
-	api:`
-		NA ctrl api <options>
+	backup:`
+		ctrl backup <options>
 
-		show-objects             .... Collect all objects
-		show-hosts               .... Collect all host objects
-		show-networks            .... Get network objects
-		show-groups              .... Get group object references
-		show-simple-gateways     .... Pull gateway objects
-		show-unused-objects      .... Get objects not used in policy
-		show-data-center-objects .... Get dynamic objects from data centers
+		all                 .... backup all objects
+		hosts               .... backup host objects
+		networks            .... backup network objects
+		groups              .... backup group object references
 
-		Ex. ctrl api show-objects
+		Ex. ctrl backup show-objects
 
 		
 							`

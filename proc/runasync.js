@@ -7,10 +7,10 @@ module.exports = async (cpEvent, cmd) => {
 	try {
 		cpEvent.mycmd = '/' + cmd
 		let myObjects = await doGrab(cpEvent)
-		//let parsedObj = await doParse(myObjects)
-		//await doSave('/' + cmd, parsedObj)
+		let parsedObj = await doParse(myObjects)
+		await doSave('/' + cmd, parsedObj)
 		process.stdout.write(' \n')
-		return 
+		return myObjects 
 	} catch (err) {
 		doError(err)
 	}
