@@ -5,7 +5,7 @@ const doGrab = require('../cp/showobjects')
 const doAlert = require('../msgbus/alertme')
 const doSave = require('../msgbus/writefile')
 const msgBus = require('../msgbus/stream')
-const doParse = require('../proc/cpdata')
+const doParse = require('../proc/data')
 
 module.exports = async (args) => {
 	try {
