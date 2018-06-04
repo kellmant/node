@@ -1,5 +1,6 @@
 const myAuth = require('../utils/auth')
 const myToken = require('../utils/token')
+const myBus = require('../msgbus/stream')
 
 module.exports = async () => {
 	try {

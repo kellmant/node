@@ -1,5 +1,6 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+const myBus = require('../msgbus/stream')
 const getObject = require('./callapi')
 
 // baseURL: 'https://host/web_api'
@@ -17,6 +18,8 @@ module.exports = async (cpToken) => {
 			data: { }
 		}
 		var cpLogout = await getObject(cpCall)
+		cpToken.mycmd = cpCall.url
+		await myBus(cpLogout.statusText, cpToken)
 		await console.log('Session ' + cpToken.uid + ' close: ' + cpLogout.data.message)
 		return cpLogout
 	} catch (err) {

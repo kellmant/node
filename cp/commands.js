@@ -1,6 +1,8 @@
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const getObject = require('../utils/callapi')
+const msgBus = require('../msgbus/stream')
+
 //const mycmd = '/show-commands'
 // baseURL: 'https://host/web_api'
 // url: /login,
@@ -18,6 +20,7 @@ module.exports = async (cpToken) => {
 			data: { }
 		}
 		var cpObjects = await getObject(cpCall)
+		await msgBus(cpObjects.statusText, cpToken)
 		return cpObjects.data
 	} catch (err) {
 		console.error(err)

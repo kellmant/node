@@ -20,7 +20,7 @@ module.exports = async (args) => {
 		const parsedObj = await doParse(myObjects)
 		await doSave(cpSession.mycmd, parsedObj)
 		const myExit = await doLogout(cpSession)
-		await msgBus('Logout', cpSession)
+		//await msgBus('Logout', cpSession)
 		await console.log('\n')
 	} catch (err) {
 		doError(err)
