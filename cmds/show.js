@@ -14,13 +14,20 @@ module.exports = async (args) => {
 			return
 		}
 		const cpSession = await doLogin()
-		cpSession.mycmd = await '/' + args._[0] + '-' + args._[1]
-		await msgBus('Login', cpSession)
-		const myObjects = await doGrab(cpSession)
-		const parsedObj = await doParse(myObjects)
-		await doSave(cpSession.mycmd, parsedObj)
+		if (args._[1] == 'objects') {
+			cpSession.mycmd = await '/' + args._[0] + '-hosts'
+			const myHosts = await doGrab(cpSession)
+			cpSession.mycmd = await '/' + args._[0] + '-networks'
+			const myNets = await doGrab(cpSession)
+			cpSession.mycmd = await '/' + args._[0] + '-groups'
+			const myGroups = await doGrab(cpSession)
+		} else {
+			cpSession.mycmd = await '/' + args._[0] + '-' + args._[1]
+			const myObjects = await doGrab(cpSession)
+			const parsedObj = await doParse(myObjects)
+			await doSave(cpSession.mycmd, parsedObj)
+		}
 		const myExit = await doLogout(cpSession)
-		//await msgBus('Logout', cpSession)
 		await console.log('\n')
 	} catch (err) {
 		doError(err)

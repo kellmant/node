@@ -2,6 +2,7 @@
 const getObject = require('../utils/callapi')
 const msgBus = require('../msgbus/stream')
 //
+const doDump = require('../proc/cpdump')
 
 module.exports = async (cpToken) => {
 	try {
@@ -19,6 +20,7 @@ module.exports = async (cpToken) => {
 		}
 		let cpFound = await getObject(cpCall)
 		await msgBus('req for ' + cpFound.data.total + ' objects', cpToken)
+		await doDump(cpFound.data)
 		await cpBlob.push(cpFound.data)
 		while (cpFound.data.total > offset) {
 			process.stdout.write(' ' + cpToken.mycmd + '=> ' + offset + '\r')
@@ -35,6 +37,7 @@ module.exports = async (cpToken) => {
 			await cpBlob.push(cpFound.data)
 			if (cpFound.data.to)
 			await msgBus('Indexing ' + cpFound.data.to + ' objects', cpToken)
+			await doDump(cpFound.data)
 		}
 		return cpBlob
 	} catch (err) {
