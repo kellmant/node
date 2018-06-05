@@ -13,37 +13,31 @@ function Login(x) {
 
 // class methods for CP REST api login
 //
-Login.prototype.noauthme = async function() {
-	let mydata = { 
-		'user': await getKey(this.admin), 
-		'password': await getKey(this.passwd)
-	}
-	let myhost = await getKey(this.host) 
-	let mycmd = 'login'
-	const resdat = [ mydata, myhost, mycmd ]
-
-	return resdat
-}
-
-Login.prototype.login = async function(x) {
-	const myhost = await getKey(this.host) 
-	const mydata = await [ baseURL = myhost,
-			url = 'login',
-			this.data = x ]
-	return mydata
-}
 
 Login.prototype.authme = async function() {
-	let mydata = []
+	const mydata = []
 	let myauth = { 
 		'user': await getKey(this.admin), 
 		'password': await getKey(this.passwd)
 	}
 	let myhost = await getKey(this.host) 
+	let myurl = await `https://${myhost}/web_api`
 	let mycmd = 'login'
-	mydata.auth = myauth
+	mydata.data = myauth
 	mydata.host = myhost
+	mydata.url = myurl
 	mydata.cmd = mycmd
+	return mydata
+}
+
+Login.prototype.logout = async function(x) {
+	const mydata = []
+	mydata.url = x.url
+	let mycmd = 'logout'
+	mydata.data = {}
+	mydata.url = x.url
+	mydata.cmd = mycmd
+	mydata.headers['X-chkp-sid'] = x.sid 
 	return mydata
 }
 
