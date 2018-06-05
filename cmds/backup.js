@@ -1,11 +1,10 @@
 const doLogin = require('../utils/login')
 const doLogout = require('../utils/logout')
 const doError = require('../utils/error')
-const doGrab = require('../cp/showobjects')
+const doGrab = require('../cp/getobj')
 const doAlert = require('../msgbus/alertme')
 const doSave = require('../msgbus/writefile')
 const msgBus = require('../msgbus/stream')
-const doParse = require('../proc/data')
 const doAsync = require('../proc/runasync')
 
 module.exports = async (args) => {
@@ -17,19 +16,20 @@ module.exports = async (args) => {
 		const cpSession = await doLogin()
 		if (args._[1] == 'all') {
 			const show = {
-				hosts: 'show-hosts',
-				nets: 'show-networks',
-				groups: 'show-groups',
-				seczones: 'show-security-zones',
-				layers: 'show-access-layers',
-				tags: 'show-tags',
-				gws: 'show-simple-gateways'
+				objects: 'show-objects'
+				//hosts: 'show-hosts',
+				//nets: 'show-networks',
+				//groups: 'show-groups',
+				//seczones: 'show-security-zones'
+				//layers: 'show-access-layers',
+				//tags: 'show-tags',
+				//gws: 'show-simple-gateways'
 			}
 
 			for (var i in show) {
 				//console.log(show[i])
-				await doAsync(cpSession, show[i])
-				
+				cpSession.mycmd = '/' + show[i]
+				await doGrab(cpSession)
 			}
 		}
 		const myExit = await doLogout(cpSession)

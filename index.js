@@ -27,6 +27,10 @@ module.exports = () => {
 		cmd = 'backup'
 	}
 
+	if (args.try) {
+		cmd = 'try'
+	}
+
 
 
 	switch (cmd) {
@@ -54,6 +58,9 @@ module.exports = () => {
 			require('./help/help')(args)
 				break
 
+		case 'try':
+			require('./cmds/try')(args)
+				break
 		default:
 			error(`"${cmd}" is not a valid control command`, true)
 			require('./cmds/help')(args)
